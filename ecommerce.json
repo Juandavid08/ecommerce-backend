@@ -1,0 +1,147 @@
+{
+  "info": {
+    "name": "Ecommerce Backend - GraphQL (con JWT)",
+    "_postman_id": "ecommerce-jwt-collection",
+    "description": "Colección completa con login y token JWT",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Register User",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"query\": \"mutation { registerUser(username: \\\"admin\\\", password: \\\"123456\\\", name: \\\"Juan\\\", lastName: \\\"David\\\", email: \\\"juan@email.com\\\", userType: \\\"admin\\\") { id username email } }\""
+        },
+        "url": {
+          "raw": "http://localhost:4000/graphql",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["graphql"]
+        }
+      }
+    },
+    {
+      "name": "Login User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const json = pm.response.json();",
+              "pm.environment.set(\"jwtToken\", json.data.login.token);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"query\": \"query { login(username: \\\"admin\\\", password: \\\"123456\\\") { token user { id name email username } } }\""
+        },
+        "url": {
+          "raw": "http://localhost:4000/graphql",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["graphql"]
+        }
+      }
+    },
+    {
+      "name": "Get User by ID",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"query\": \"query { getUser(id: \\\"REEMPLAZAR_ID\\\") { username name email userType } }\""
+        },
+        "url": {
+          "raw": "http://localhost:4000/graphql",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["graphql"]
+        }
+      }
+    },
+    {
+      "name": "Update User (protegido)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"query\": \"mutation { updateUser(id: \\\"REEMPLAZAR_ID\\\", name: \\\"Juan Dev\\\", lastName: \\\"Actualizado\\\", email: \\\"nuevo@email.com\\\") { id name lastName email } }\""
+        },
+        "url": {
+          "raw": "http://localhost:4000/graphql",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["graphql"]
+        }
+      }
+    },
+    {
+      "name": "Logout (con token)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"query\": \"mutation { logout }\""
+        },
+        "url": {
+          "raw": "http://localhost:4000/graphql",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["graphql"]
+        }
+      }
+    },
+    {
+      "name": "Get VTEX Products",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"query\": \"query { getVTEXProducts { productId productName brand items { itemId name images { imageUrl imageText } } } }\""
+        },
+        "url": {
+          "raw": "http://localhost:4000/graphql",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["graphql"]
+        }
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "key": "jwtToken",
+      "value": ""
+    }
+  ]
+}

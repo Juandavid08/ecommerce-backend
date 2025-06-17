@@ -1,0 +1,21 @@
+# Node.js
+node_modules/
+dist/
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Compilados de TypeScript
+*.tsbuildinfo
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/
