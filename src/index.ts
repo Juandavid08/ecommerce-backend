@@ -13,7 +13,7 @@ dotenv.config();
 
 async function startServer() {
   await mongoose.connect(process.env.MONGO_URI!);
-  console.log('✅ MongoDB conectado');
+  console.log('MongoDB conectado');
 
   const app = express();
   app.use(cors());
@@ -47,10 +47,10 @@ async function startServer() {
 
   const PORT = process.env.PORT || 4000;
   app.listen(PORT, () => {
-    console.log(`🚀 Servidor listo en http://localhost:${PORT}/graphql`);
+    console.log(`Servidor listo en http://localhost:${PORT}/graphql`);
   });
 }
 
 startServer().catch((err) =>
-  console.error('❌ Error al iniciar el servidor:', err)
+  console.error('Error al iniciar el servidor:', err)
 );
